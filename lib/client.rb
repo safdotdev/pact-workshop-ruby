@@ -11,7 +11,8 @@ class Client
   end
 
   def load_provider_json(query_date)
-    response = HTTParty.get(URI::encode("http://#{base_uri}/provider.json?valid_date=#{query_date}"))
+    p = URI::Parser.new
+    response = HTTParty.get(p.escape("http://#{base_uri}/provider.json?valid_date=#{query_date}"))
     if response.success?
       JSON.parse(response.body)
     end

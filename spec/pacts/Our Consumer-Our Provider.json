@@ -1,0 +1,80 @@
+{
+  "consumer": {
+    "name": "Our Consumer"
+  },
+  "interactions": [
+    {
+      "description": "a request for json data",
+      "providerState": "data count is > 0",
+      "request": {
+        "method": "GET",
+        "path": "/provider.json",
+        "query": "valid_date=Mon%2c+05+Aug+2024+21%3a55%3a57+GMT"
+      },
+      "response": {
+        "body": {
+          "count": 100,
+          "test": "NO",
+          "valid_date": "2013-08-16T15:31:20+10:00"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.count": {
+            "match": "type"
+          },
+          "$.body.valid_date": {
+            "match": "regex",
+            "regex": "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}"
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request with a missing date parameter",
+      "providerState": "data count is > 0",
+      "request": {
+        "method": "GET",
+        "path": "/provider.json"
+      },
+      "response": {
+        "body": "valid_date is required",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 400
+      }
+    },
+    {
+      "description": "a request with an invalid date parameter",
+      "providerState": "data count is > 0",
+      "request": {
+        "method": "GET",
+        "path": "/provider.json",
+        "query": "valid_date=This+is+not+a+date"
+      },
+      "response": {
+        "body": "'This is not a date' is not a date",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 400
+      }
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.4.22",
+      "mockserver": "1.2.9",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "Our Provider"
+  }
+}

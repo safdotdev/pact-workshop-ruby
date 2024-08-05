@@ -26,3 +26,23 @@ task :run_client do
   require 'ap'
   ap Client.new.process_data
 end
+
+require 'pact/tasks/verification_task'
+
+task :start_provider do
+  system 'bundle exec rackup --pid provider.pid -D'
+end
+
+task :stop_provider do
+  system 'kill $(cat provider.pid)'
+end
+
+Pact::VerificationTask.new(:foobar_pact) do |pact|
+  pact.provider_base_url 'http://localhost:9292', pact_helper: './spec/spec_helper.rb'
+end
+task 'pact:verify:foobar' do
+  Rake::Task['start_provider'].execute
+  Rake::Task['pact:verify:foobar_pact'].execute
+ensure
+  Rake::Task['stop_provider'].execute
+end
