@@ -12,7 +12,7 @@ test/tmp
 test/version_tmp
 tmp
 reports/
-
+Gemfile.lock
 # YARD artifacts
 .yardoc
 _yardoc

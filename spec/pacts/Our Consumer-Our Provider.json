@@ -9,7 +9,7 @@
       "request": {
         "method": "GET",
         "path": "/provider.json",
-        "query": "valid_date=Mon%2c+05+Aug+2024+21%3a55%3a57+GMT"
+        "query": "valid_date=Mon%2c+05+Aug+2024+22%3a02%3a33+GMT"
       },
       "response": {
         "body": {
